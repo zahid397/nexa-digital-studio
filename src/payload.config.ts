@@ -7,6 +7,7 @@ import { buildConfig } from 'payload'
 import { Users, Categories, Services, Projects, Inquiries } from '@/cms/collections'
 import { SiteSettings, Home, About } from '@/cms/globals'
 import { databaseDriver } from '@/lib/database-driver'
+import { normalizeDatabaseUrl } from '@/lib/database-url'
 import { attachDatabasePool } from '@vercel/functions'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -36,10 +37,11 @@ export default buildConfig({
   db: postgresAdapter({
     pg: databaseDriver(),
     pool: {
-      connectionString:
+      connectionString: normalizeDatabaseUrl(
         process.env.PAYLOAD_MIGRATING === 'true'
           ? (process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL)
           : process.env.DATABASE_URL,
+      ),
       max: 5,
       idleTimeoutMillis: 10_000,
       connectionTimeoutMillis: 15_000,

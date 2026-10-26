@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-26T23:24:47.714396+00:00",
+  "date": "2026-10-26T23:34:10.922Z",
   "environment": "Isolated existing Neon qa-isolated branch; local production build",
   "node": "24.22.1",
   "typecheck": "passed",
   "lint": "passed",
   "build": "passed",
   "unit": {
-    "passed": 9,
+    "passed": 13,
     "failed": 0
   },
   "integration": {
@@ -14,8 +14,8 @@
     "failed": 0
   },
   "browser": {
-    "startTime": "2026-10-26T23:18:49.232Z",
-    "duration": 209819.05800000002,
+    "startTime": "2026-10-26T23:34:10.922Z",
+    "duration": 218035.752,
     "expected": 19,
     "skipped": 0,
     "unexpected": 0,
@@ -36,134 +36,135 @@
       "title": "completed owner setup keeps the first-user URL on the normal authenticated CMS flow",
       "status": "expected",
       "durationsMs": [
-        3407
+        3329
       ]
     },
     {
       "title": "all six published service details render their CMS content and inquiry links",
       "status": "expected",
       "durationsMs": [
-        6398
+        6543
       ]
     },
     {
       "title": "all six fictional portfolio details render valid project images and case studies",
       "status": "expected",
       "durationsMs": [
-        9829
+        9457
       ]
     },
     {
       "title": "contact service choices reflect published CMS services and preserve CTA selection",
       "status": "expected",
       "durationsMs": [
-        3194
+        3199
       ]
     },
     {
       "title": "contact preserves entered data and never claims success on an error or mismatched reference",
       "status": "expected",
       "durationsMs": [
-        3271
+        4006
       ]
     },
     {
       "title": "unpublished service choices show an explicit recovery state without losing the inquiry draft",
       "status": "expected",
       "durationsMs": [
-        46359
+        48561
       ]
     },
     {
       "title": "mobile navigation covers Contact, traps focus and restores scroll at narrow widths",
       "status": "expected",
       "durationsMs": [
-        4635
+        4574
       ]
     },
     {
       "title": "mobile navigation closes on destination, desktop resize and explicit dismissal",
       "status": "expected",
       "durationsMs": [
-        2405
+        2354
       ]
     },
     {
       "title": "all public pages fit the additional 390px and 1024px acceptance widths",
       "status": "expected",
       "durationsMs": [
-        12227
+        12201
       ]
     },
     {
       "title": "Home, Services, Portfolio, About and Contact navigation",
       "status": "expected",
       "durationsMs": [
-        8630
+        9521
       ]
     },
     {
       "title": "mobile hamburger, keyboard dismissal and touch navigation",
       "status": "expected",
       "durationsMs": [
-        2760
+        2799
       ]
     },
     {
       "title": "responsive layouts have no horizontal overflow",
       "status": "expected",
       "durationsMs": [
-        15207
+        17746
       ]
     },
     {
       "title": "administrator can log in through the actual Payload UI",
       "status": "expected",
       "durationsMs": [
-        5407
+        5698
       ]
     },
     {
       "title": "administrator creates a draft, publishes it and sees it publicly after refresh",
       "status": "expected",
       "durationsMs": [
-        25401
+        28259
       ]
     },
     {
       "title": "editing the homepage in CMS changes the public page",
       "status": "expected",
       "durationsMs": [
-        21991
+        21598
       ]
     },
     {
       "title": "accessible contact validation and a persisted inquiry visible in CMS",
       "status": "expected",
       "durationsMs": [
-        14026
+        13559
       ]
     },
     {
       "title": "anonymous administrative operations and public first-user registration are denied",
       "status": "expected",
       "durationsMs": [
-        485
+        474
       ]
     },
     {
       "title": "contact idempotency, spam rejection and excessive-submission limits",
       "status": "expected",
       "durationsMs": [
-        10151
+        9857
       ]
     },
     {
       "title": "public screenshots and reduced-motion preference",
       "status": "expected",
       "durationsMs": [
-        9034
+        9047
       ]
     }
-  ]
+  ],
+  "tlsVerification": "Legacy alias modes explicitly verify-full; encoded connection settings preserved"
 }

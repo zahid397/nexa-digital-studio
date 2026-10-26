@@ -56,3 +56,7 @@ The Vercel connector may require team access approval through its own consent li
 Payload is self-hosted open-source software. The application adds no paid APIs. Neon and Vercel account quotas, acceptable-use rules, build quotas and current plan terms still apply. No paid upgrades should be enabled automatically. Free resources are not an unlimited hosting guarantee.
 
 No server filesystem upload storage is used. The included mockups are shipped assets, and content/editorial data stays in PostgreSQL. Back up database data separately from the Git repository. Deleting the database removes content and inquiries even when source files remain.
+
+Runtime connection handling makes certificate verification explicit: legacy `prefer`, `require` and `verify-ca` SSL modes retain the driver's current strict behavior through `verify-full`. Host, credentials, pooled/direct selection and unrelated TLS flags are preserved. Do not disable TLS or replace existing database credentials to silence warnings.
+
+The automatic PR preview currently fails closed because Preview environment secrets are not configured (`PAYLOAD_SECRET` missing). Production settings are separate and were used for the verified production release. To enable previews, configure an explicitly isolated preview database and independent secret through Vercel privately, with a matching preview `SITE_URL`; do not copy the production database into preview settings.

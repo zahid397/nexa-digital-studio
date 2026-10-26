@@ -7,7 +7,7 @@ Updated 26 October 2026. These results describe executed checks, not assumed pas
 | Clean npm ci on Node 24.22.1 | Passed; 686 locked packages installed |
 | npm run typecheck | Passed |
 | npm run lint | Passed without warnings in the final run |
-| npm run test:unit | 9 passed |
+| npm run test:unit | 13 passed |
 | npm run test:integration | 4 passed against the existing isolated Neon QA branch |
 | npm run build | Passed; Next.js 16.4.3 production build, no schema push |
 | npm run test:e2e | 19 passed, 0 failed, 0 skipped in the final full run |
@@ -36,4 +36,6 @@ First-user public registration remains 403. Payload's supported createFirstUser 
 
 Screenshots in docs/screenshots contain only public fictional content. docs/test-results.json is a sanitized summary, not an auth trace. Browser traces remain disabled; private environments, credentials, installed dependencies and test artifacts are ignored. No destructive tests or cleanup ran against production.
 
-No email provider is configured, and no message or password-recovery email is claimed sent. Physical Android/Safari, a complete screen-reader audit and Lighthouse benchmarking were not performed. The build emitted a nonfatal webpack warning; no build failure is hidden. The standard Vercel runtime uses the normal pooled PostgreSQL driver; the restricted QA/owner CLI used the existing opt-in Neon WebSocket driver with real PostgreSQL transactions.
+No email provider is configured, and no message or password-recovery email is claimed sent. Physical Android/Safari, a complete screen-reader audit and Lighthouse benchmarking were not performed. A post-deploy node-postgres SSL-mode warning was investigated: current connections already verified certificates. The runtime now explicitly normalizes only legacy SSL-mode aliases to verify-full while preserving credentials, host, pooled/direct selection and other TLS flags. Four focused URL/security tests cover this behavior. The fresh build compiled successfully. The standard Vercel runtime uses the normal pooled PostgreSQL driver; the restricted QA/owner CLI used the existing opt-in Neon WebSocket driver with real PostgreSQL transactions.
+
+The automatic Git preview is a separate environment: its build fails for missing preview PAYLOAD_SECRET. This is documented rather than hidden by a fallback secret or disabled check. Production deploys use the existing protected production settings. Final deployment and runtime results are recorded in the recovery PR.
