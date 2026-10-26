@@ -21,6 +21,14 @@ export default buildConfig({
     user: 'users',
     meta: { titleSuffix: ' | Nexa Studio CMS' },
     importMap: { baseDir: dirname },
+    components: {
+      views: {
+        createFirstUser: {
+          Component: '/components/cms-owner-setup#OwnerSetupView',
+          meta: { title: 'Secure owner setup' },
+        },
+      },
+    },
   },
   collections: [Users, Categories, Services, Projects, Inquiries],
   globals: [SiteSettings, Home, About],

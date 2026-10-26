@@ -1,5 +1,6 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { ArrowUpRight, Check, LoaderCircle } from 'lucide-react'
 type ServiceOption = { title: string; slug: string }
 type FieldErrors = Record<string, string[]>
@@ -13,6 +14,8 @@ export function ContactForm({
   privacyNote: string
   initialService?: string
 }) {
+  const router = useRouter()
+  const [refreshing, refreshServices] = useTransition()
   const [errors, setErrors] = useState<FieldErrors>({})
   const [message, setMessage] = useState('')
   const [reference, setReference] = useState('')
@@ -38,6 +41,12 @@ export function ContactForm({
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (lock.current) return
+    if (!services.length) {
+      setMessage(
+        'Services are temporarily unavailable. Refresh the service list before sending your inquiry.',
+      )
+      return
+    }
     lock.current = true
     setBusy(true)
     setErrors({})
@@ -52,12 +61,16 @@ export function ContactForm({
         body: JSON.stringify({ ...input, submissionId: key.current }),
       })
       const body: ResponseBody = await res.json()
-      if (res.ok && body.reference) {
+      if (res.ok && typeof body.reference === 'string' && body.reference === key.current) {
         setReference(body.reference)
         return
       }
       setErrors(body.fieldErrors ?? {})
-      setMessage(body.message ?? 'Your inquiry could not be saved. Please retry.')
+      setMessage(
+        res.ok
+          ? 'The server did not confirm a saved inquiry. Your message is still here. Please retry.'
+          : (body.message ?? 'Your inquiry could not be saved. Please retry.'),
+      )
       // Validation did not create an inquiry, so edits may safely use a fresh key.
       if (res.status === 422) key.current = ''
     } catch {
@@ -109,6 +122,21 @@ export function ContactForm({
           ))}
         </div>
       )}
+      {!services.length && (
+        <div className="error-summary" id="service-availability" role="status">
+          <p>
+            Services are temporarily unavailable. Please refresh the list before sending an inquiry.
+          </p>
+          <button
+            type="button"
+            className="button button-outline"
+            disabled={refreshing}
+            onClick={() => refreshServices(() => router.refresh())}
+          >
+            {refreshing ? 'Refreshing services…' : 'Refresh services'}
+          </button>
+        </div>
+      )}
       <fieldset disabled={busy}>
         <legend className="sr-only">Project inquiry</legend>
         <div className="form-row">
@@ -156,11 +184,16 @@ export function ContactForm({
             name="service"
             defaultValue={services.some((s) => s.slug === initialService) ? initialService : ''}
             required
+            disabled={!services.length}
             aria-invalid={!!errors.service}
-            aria-describedby={hint('service')}
+            aria-describedby={
+              [hint('service'), !services.length ? 'service-availability' : '']
+                .filter(Boolean)
+                .join(' ') || undefined
+            }
           >
             <option value="" disabled>
-              Select a service
+              {services.length ? 'Select a service' : 'Services temporarily unavailable'}
             </option>
             {services.map((s) => (
               <option value={s.slug} key={s.slug}>

@@ -21,7 +21,8 @@
     "admin:create": "node --import tsx scripts/create-admin.ts",
     "test:integration": "node --env-file=.env.test --import tsx --test --test-force-exit tests/integration.test.ts",
     "test:e2e": "node --env-file=.env.test --import tsx tests/reset-contact-limits.ts && playwright test",
-    "admin:recover": "node --import tsx scripts/recover-admin.ts"
+    "admin:recover": "node --import tsx scripts/recover-admin.ts",
+    "test:unit": "node --import tsx --test tests/seed.test.ts tests/contact-validation.test.ts"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "5.3.0",

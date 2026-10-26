@@ -1,39 +1,39 @@
-# Verification results
+# Verification and release evidence
 
-Date: 26 October 2026. Results below describe checks that actually ran.
+Updated 26 October 2026. These results describe executed checks, not assumed passing tests.
 
-| Check | Result |
+| Check | Actual result |
 | --- | --- |
-| Dependency installation and clean `npm ci` | Passed |
-| Strict TypeScript | Passed |
-| ESLint | Passed |
-| Next.js production build | Passed |
-| PostgreSQL migrations | Executed successfully; repeat application was a no-op |
-| Real database/CMS integration suite | 4 passed, 0 failed |
-| Complete Playwright browser suite | 10 passed, 0 failed, 0 skipped |
-| Production dependency audit | 0 vulnerabilities reported |
-| Vercel live deployment | Blocked by missing team access grant |
-| Production administrator and seed | Blocked by automatic approval review |
-| GitHub repository publication | Complete source published to https://github.com/zahid397/nexa-digital-studio |
+| Clean npm ci on Node 24.22.1 | Passed; 686 locked packages installed |
+| npm run typecheck | Passed |
+| npm run lint | Passed without warnings in the final run |
+| npm run test:unit | 9 passed |
+| npm run test:integration | 4 passed against the existing isolated Neon QA branch |
+| npm run build | Passed; Next.js 16.4.3 production build, no schema push |
+| npm run test:e2e | 19 passed, 0 failed, 0 skipped in the final full run |
+| npm audit | 0 vulnerabilities, including development dependencies |
+| Existing production migrations | Both committed migrations already applied; preserved unchanged |
+| Guarded production demo seed | Exit 0; 6 services and 6 fictional projects published, categories and all 3 globals initialized |
+| Production administrator | Not created by this recovery; private owner bootstrap remains required |
+
+The reviewed source is delivered on `codex/nexa-cms-completion`. The recovery pull request and final handover record the exact remote SHA, Vercel deployment ID, terminal READY status and live post-deploy checks. The production target is the existing https://nexa-digital-studio-neon.vercel.app project; no duplicate project or database was created. A local build or a prior deployment is not evidence of the new source being released.
 
 ## Browser coverage
 
-The full suite used a local production build and the real isolated Neon database. It checked navigation across all five pages, portfolio filters and case-study routes, mobile menu keyboard dismissal, public layouts at 360/768/1440 pixels, real admin login, creating a draft through the Payload UI, publishing it and seeing it publicly after refresh, editing homepage content and seeing public changes, contact validation and a persisted inquiry visible in the CMS, anonymous access denial including versions/drafts/first-user registration, idempotency conflicts, spam/rate limits, reduced motion and public screenshots. The final complete run passed all 10 tests in approximately 102 seconds.
+All five public pages were checked at 360, 390, 768, 1024 and 1440 pixels without horizontal overflow. The suite exercises mobile modal navigation, native background inertness, focus trapping/restoration, Escape/close/resize/destination cleanup, strict 200px scroll restoration, CMS-driven links, all 6 service detail pages and inquiry CTAs, all 6 fictional project detail pages and images, portfolio filtering, published-service selection and recovery from an empty service list while retaining an unsent draft.
 
-The publishing test waits for the draft save to finish navigating to the persisted document before clicking Publish changes. This avoids sending a second create request before the editor transition completes. Partial-update slug validation also preserves an existing slug when a publish operation omits that field.
+Real CMS checks use the actual Payload UI and the isolated PostgreSQL branch: administrator login, creating a draft, publishing it, public refresh, editing/publishing/restoring homepage content, a contact inquiry persisted and visible in the authenticated private inbox, unauthorized access/version/draft/first-register denials, idempotent retries/conflicts, spam limits and reduced motion. The new failure-path test deliberately simulates only error/mismatched-reference HTTP responses; it verifies that the client retains entered data and never falsely reports a saved inquiry. Successful persistence is independently tested against the real database.
 
-## Integration coverage
+The initial recovery browser run had two test-fixture failures. The error assertion also matched Next's route announcer; it now scopes to the actual form. Playwright's locator click scrolled a visible sticky menu trigger before the application handled it; the test now uses its visible screen coordinates and retains the strict original scroll-position assertion. The complete rerun passed all 19 cases. No tests or security checks were disabled.
 
-Four database integration tests check server-side contact validation, unauthorized inquiry/account access, draft/publish/unpublish persistence, and homepage publication with unauthorized global edits denied. Tests use independent credentials and a dedicated Neon branch. The test guard refuses the production endpoint. Shared-content tests run sequentially. No destructive tests were run against production.
+## Seed/bootstrap safety
 
-## Visual review and limits
+Focused tests cover new content publication, repeated-seed idempotence, preservation of edited records/drafts/cleared arrays, repair of missing global fields, honest incomplete-setup reporting, private owner-input validation and setup locking. The real QA seed rerun preserved 6 services, 6 projects and all existing globals. A separately authorized production CLI operation then created only the missing fictional demo content. Production inquiries and user accounts were not created by the seed; migration history was preserved.
 
-Public desktop and mobile screenshots were reviewed for layout and readable content. Reduced-motion styles display content immediately, without retaining hidden off-screen reveals. Screenshots contain fictional public content only. Browser checks used Chromium 153 in a restricted environment with an available headless executable. Physical Android/Samsung Internet, Safari and a comprehensive screen-reader audit were not performed. No Lighthouse score or performance benchmark is claimed.
+First-user public registration remains 403. Payload's supported createFirstUser view now gives secure owner instructions instead of presenting an impossible registration form. Existing accounts retain normal login, verified on the isolated QA environment. This does not claim a production administrator exists or that a production authenticated session was tested. Follow [OWNER_SETUP.md](OWNER_SETUP.md) privately.
 
-The optional WebSocket database driver was used for the restricted development workspace, with real PostgreSQL transactions and persistence. Standard Vercel deployment uses the regular PostgreSQL adapter. See SECURITY.md for the dependency patches and operational boundaries. An audit result is time-specific and does not guarantee the absence of every possible issue.
+## Limits and artifacts
 
-## Deployment status
+Screenshots in docs/screenshots contain only public fictional content. docs/test-results.json is a sanitized summary, not an auth trace. Browser traces remain disabled; private environments, credentials, installed dependencies and test artifacts are ignored. No destructive tests or cleanup ran against production.
 
-The new production database has its initial schema but no administrator or seeded demo content. This state was checked read-only. Automatic approval review rejected the command to create its initial administrator and seed content as an unapproved persistent production change. It has not been retried through another route. Vercel separately returned a team-access authorization error. No production URL or live CMS login URL is claimed.
-
-The application source, tested migrations, safe content seed, environment examples, setup/deployment guides, public screenshots, recording checklist and recruitment email draft are included. Private environment files, passwords, installed dependencies, raw authentication logs and browser traces are excluded.
+No email provider is configured, and no message or password-recovery email is claimed sent. Physical Android/Safari, a complete screen-reader audit and Lighthouse benchmarking were not performed. The build emitted a nonfatal webpack warning; no build failure is hidden. The standard Vercel runtime uses the normal pooled PostgreSQL driver; the restricted QA/owner CLI used the existing opt-in Neon WebSocket driver with real PostgreSQL transactions.

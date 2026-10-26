@@ -314,8 +314,58 @@ main:focus {
   align-items: center;
   justify-content: center;
 }
+.mobile-menu:not([open]),
 .mobile-nav {
   display: none;
+}
+.mobile-menu {
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  border: 0;
+  color: var(--ink);
+  background: #111218;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.mobile-menu::backdrop {
+  background: #111218;
+}
+.mobile-menu[open] {
+  display: flex;
+  flex-direction: column;
+  animation: mobile-menu-enter 160ms ease-out;
+}
+.mobile-menu-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #111218;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(77px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu-header .menu-toggle {
+  display: inline-flex;
+}
+@keyframes mobile-menu-enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu[open] {
+    animation: none;
+  }
 }
 .hero {
   display: grid;
@@ -1600,36 +1650,38 @@ main:focus {
   }
   .mobile-nav {
     display: flex;
-    position: absolute;
-    left: 0;
-    top: 76px;
-    right: 0;
-    background: #111218;
-    border-bottom: 1px solid var(--line);
-    padding: 25px 36px 30px;
+    flex: 1;
     flex-direction: column;
-    box-shadow: 0 30px 40px #0005;
+    padding-top: clamp(22px, 5vh, 48px);
+    padding-bottom: max(30px, env(safe-area-inset-bottom));
   }
   .mobile-nav > a {
     display: flex;
     align-items: center;
-    gap: 22px;
-    border-bottom: 1px solid var(--line);
-    padding: 17px 0;
+    gap: clamp(14px, 4vw, 24px);
+    border-bottom: 1px solid #ffffff26;
+    min-height: 64px;
+    padding: 16px 0;
     font-family: var(--font-display);
-    font-size: 26px;
+    font-size: clamp(25px, 5vw, 38px);
+    color: var(--ink);
   }
-  .mobile-nav > a > span {
-    font-size: 10px;
+  .mobile-nav > a > .mobile-nav-index {
+    font-size: 11px;
+    color: #b3b1bf;
   }
   .mobile-nav > a > svg {
     margin-left: auto;
+    flex-shrink: 0;
   }
+  .mobile-nav > a:hover,
   .mobile-nav > a[aria-current='page'] {
     color: var(--violet);
   }
   .mobile-nav > p {
-    margin: 22px 0 0;
+    margin: auto 0 0;
+    padding-top: 30px;
+    color: #b3b1bf;
   }
   .hero {
     min-height: 700px;

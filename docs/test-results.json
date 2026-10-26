@@ -1,59 +1,169 @@
 {
-  "date": "2026-10-26",
-  "environment": "Isolated Neon QA branch, local production server",
-  "browser": "Chromium 153",
+  "date": "2026-10-26T23:24:47.714396+00:00",
+  "environment": "Isolated existing Neon qa-isolated branch; local production build",
+  "node": "24.22.1",
+  "typecheck": "passed",
+  "lint": "passed",
+  "build": "passed",
+  "unit": {
+    "passed": 9,
+    "failed": 0
+  },
   "integration": {
     "passed": 4,
     "failed": 0
   },
-  "browser_tests": [
-    {
-      "test": "Home, Services, Portfolio, About and Contact navigation",
-      "status": "passed"
-    },
-    {
-      "test": "mobile hamburger, keyboard dismissal and touch navigation",
-      "status": "passed"
-    },
-    {
-      "test": "responsive layouts have no horizontal overflow",
-      "status": "passed"
-    },
-    {
-      "test": "administrator can log in through the actual Payload UI",
-      "status": "passed"
-    },
-    {
-      "test": "administrator creates a draft, publishes it and sees it publicly after refresh",
-      "status": "passed"
-    },
-    {
-      "test": "editing the homepage in CMS changes the public page",
-      "status": "passed"
-    },
-    {
-      "test": "accessible contact validation and a persisted inquiry visible in CMS",
-      "status": "passed"
-    },
-    {
-      "test": "anonymous administrative operations and public first-user registration are denied",
-      "status": "passed"
-    },
-    {
-      "test": "contact idempotency, spam rejection and excessive-submission limits",
-      "status": "passed"
-    },
-    {
-      "test": "public screenshots and reduced-motion preference",
-      "status": "passed"
-    }
-  ],
-  "stats": {
-    "startTime": "2026-10-26T09:44:00.222Z",
-    "duration": 101643.451,
-    "expected": 10,
+  "browser": {
+    "startTime": "2026-10-26T23:18:49.232Z",
+    "duration": 209819.05800000002,
+    "expected": 19,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
-  }
+  },
+  "viewportWidths": [
+    360,
+    390,
+    768,
+    1024,
+    1440
+  ],
+  "dependencyAudit": {
+    "total": 0
+  },
+  "cases": [
+    {
+      "title": "completed owner setup keeps the first-user URL on the normal authenticated CMS flow",
+      "status": "expected",
+      "durationsMs": [
+        3407
+      ]
+    },
+    {
+      "title": "all six published service details render their CMS content and inquiry links",
+      "status": "expected",
+      "durationsMs": [
+        6398
+      ]
+    },
+    {
+      "title": "all six fictional portfolio details render valid project images and case studies",
+      "status": "expected",
+      "durationsMs": [
+        9829
+      ]
+    },
+    {
+      "title": "contact service choices reflect published CMS services and preserve CTA selection",
+      "status": "expected",
+      "durationsMs": [
+        3194
+      ]
+    },
+    {
+      "title": "contact preserves entered data and never claims success on an error or mismatched reference",
+      "status": "expected",
+      "durationsMs": [
+        3271
+      ]
+    },
+    {
+      "title": "unpublished service choices show an explicit recovery state without losing the inquiry draft",
+      "status": "expected",
+      "durationsMs": [
+        46359
+      ]
+    },
+    {
+      "title": "mobile navigation covers Contact, traps focus and restores scroll at narrow widths",
+      "status": "expected",
+      "durationsMs": [
+        4635
+      ]
+    },
+    {
+      "title": "mobile navigation closes on destination, desktop resize and explicit dismissal",
+      "status": "expected",
+      "durationsMs": [
+        2405
+      ]
+    },
+    {
+      "title": "all public pages fit the additional 390px and 1024px acceptance widths",
+      "status": "expected",
+      "durationsMs": [
+        12227
+      ]
+    },
+    {
+      "title": "Home, Services, Portfolio, About and Contact navigation",
+      "status": "expected",
+      "durationsMs": [
+        8630
+      ]
+    },
+    {
+      "title": "mobile hamburger, keyboard dismissal and touch navigation",
+      "status": "expected",
+      "durationsMs": [
+        2760
+      ]
+    },
+    {
+      "title": "responsive layouts have no horizontal overflow",
+      "status": "expected",
+      "durationsMs": [
+        15207
+      ]
+    },
+    {
+      "title": "administrator can log in through the actual Payload UI",
+      "status": "expected",
+      "durationsMs": [
+        5407
+      ]
+    },
+    {
+      "title": "administrator creates a draft, publishes it and sees it publicly after refresh",
+      "status": "expected",
+      "durationsMs": [
+        25401
+      ]
+    },
+    {
+      "title": "editing the homepage in CMS changes the public page",
+      "status": "expected",
+      "durationsMs": [
+        21991
+      ]
+    },
+    {
+      "title": "accessible contact validation and a persisted inquiry visible in CMS",
+      "status": "expected",
+      "durationsMs": [
+        14026
+      ]
+    },
+    {
+      "title": "anonymous administrative operations and public first-user registration are denied",
+      "status": "expected",
+      "durationsMs": [
+        485
+      ]
+    },
+    {
+      "title": "contact idempotency, spam rejection and excessive-submission limits",
+      "status": "expected",
+      "durationsMs": [
+        10151
+      ]
+    },
+    {
+      "title": "public screenshots and reduced-motion preference",
+      "status": "expected",
+      "durationsMs": [
+        9034
+      ]
+    }
+  ]
 }

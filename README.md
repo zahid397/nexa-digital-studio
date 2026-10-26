@@ -14,20 +14,27 @@ Compatibility was checked against Payload's installation documentation and the a
 
 1. Install Node.js 24.22.1 or newer in the 24.x line.
 2. Run `npm ci`.
-3. Copy `.env.example` to `.env` and set your Neon pooled runtime URL and direct migration URL. Generate a unique `PAYLOAD_SECRET`, for example with `openssl rand -hex 40`. Keep all these values private.
+3. For an independent local database, copy `.env.example` to `.env`, set its Neon pooled runtime URL and direct migration URL, and generate a unique local `PAYLOAD_SECRET`, for example with `openssl rand -hex 40`. Keep these values private. When operating the existing production database, use its actual existing private environment and preserve the deployed `PAYLOAD_SECRET`; follow [OWNER_SETUP.md](OWNER_SETUP.md).
 4. Set `SITE_URL=http://localhost:3000` locally.
-5. Run the database migrations and create the initial administrator:
+5. Apply the committed migrations only to that intended local database:
 
 ```bash
 PAYLOAD_MIGRATING=true npm run migrate
-npm run admin:create
-npm run seed
+```
+
+6. Create your administrator with the temporary, silently prompted owner environment in [OWNER_SETUP.md](OWNER_SETUP.md). The script requires `INITIAL_ADMIN_EMAIL` and a unique password of at least 16 non-padding characters. It refuses to replace existing users. Never add these credentials to Vercel or commit them.
+7. Initialize missing fictional demo content and start the local application:
+
+```bash
+SEED_DEMO=true npm run seed
 npm run dev
 ```
 
-The initial administrator script requires `INITIAL_ADMIN_EMAIL` and a unique password of at least 16 characters in your private `.env`. It refuses to replace existing users. Public registration, including the first-user API endpoint, is disabled. Do not include these administrator credentials in Vercel's deployed environment or public documentation. The seeder requires `SEED_DEMO=true`; it inserts missing demo content without overwriting existing edited records.
+Public registration, including the first-user API endpoint, remains disabled. An empty CMS shows secure owner setup instructions instead of an unusable public registration form. The seeder inserts missing examples and fills missing global fields while preserving existing edited records, arrays and drafts; it reports anything requiring editorial review instead of silently publishing it. `SEED_DEMO=true` applies only to the explicit seed command and must not be left in Vercel Production.
 
 Open `http://localhost:3000`, and log in at `http://localhost:3000/admin`.
+
+The existing recruitment deployment is https://nexa-digital-studio-neon.vercel.app; its intended owner sign-in URL is `/admin/login`. Current production setup and verification results are recorded in [QA.md](QA.md). A successful build does not establish that a production administrator has been created.
 
 ## Real content management
 
@@ -81,6 +88,7 @@ Inspect generated migrations, test them on an isolated database, then apply revi
 ```bash
 npm run typecheck
 npm run lint
+npm run test:unit
 npm run build
 ```
 
