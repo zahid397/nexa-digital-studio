@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-26",
+  "environment": "Isolated Neon QA branch, local production server",
+  "browser": "Chromium 153",
+  "integration": {
+    "passed": 4,
+    "failed": 0
+  },
+  "browser_tests": [
+    {
+      "test": "Home, Services, Portfolio, About and Contact navigation",
+      "status": "passed"
+    },
+    {
+      "test": "mobile hamburger, keyboard dismissal and touch navigation",
+      "status": "passed"
+    },
+    {
+      "test": "responsive layouts have no horizontal overflow",
+      "status": "passed"
+    },
+    {
+      "test": "administrator can log in through the actual Payload UI",
+      "status": "passed"
+    },
+    {
+      "test": "administrator creates a draft, publishes it and sees it publicly after refresh",
+      "status": "passed"
+    },
+    {
+      "test": "editing the homepage in CMS changes the public page",
+      "status": "passed"
+    },
+    {
+      "test": "accessible contact validation and a persisted inquiry visible in CMS",
+      "status": "passed"
+    },
+    {
+      "test": "anonymous administrative operations and public first-user registration are denied",
+      "status": "passed"
+    },
+    {
+      "test": "contact idempotency, spam rejection and excessive-submission limits",
+      "status": "passed"
+    },
+    {
+      "test": "public screenshots and reduced-motion preference",
+      "status": "passed"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-26T09:44:00.222Z",
+    "duration": 101643.451,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

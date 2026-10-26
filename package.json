@@ -1,0 +1,69 @@
+{
+  "name": "nexa-digital-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build --webpack",
+    "start": "next start --hostname 127.0.0.1",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "migrate": "node --import tsx scripts/migrate.ts",
+    "migrate:create": "payload migrate:create",
+    "seed": "node --import tsx scripts/seed.ts",
+    "admin:create": "node --import tsx scripts/create-admin.ts",
+    "test:integration": "node --env-file=.env.test --import tsx --test --test-force-exit tests/integration.test.ts",
+    "test:e2e": "node --env-file=.env.test --import tsx tests/reset-contact-limits.ts && playwright test",
+    "admin:recover": "node --import tsx scripts/recover-admin.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "@neondatabase/serverless": "1.2.0",
+    "@payloadcms/db-postgres": "3.92.0",
+    "@payloadcms/next": "3.92.0",
+    "@payloadcms/richtext-lexical": "3.92.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@vercel/functions": "3.6.1",
+    "dotenv": "18.0.9",
+    "graphql": "16.14.2",
+    "https-proxy-agent": "9.1.0",
+    "lucide-react": "1.61.0",
+    "motion": "14.6.0",
+    "next": "16.4.3",
+    "payload": "3.92.0",
+    "pg": "8.23.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "tailwindcss": "4.3.3",
+    "ws": "8.22.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/ws": "8.18.2",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.3",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "happy-dom": "21.0.4",
+    "@esbuild-kit/core-utils": {
+      "esbuild": "^0.25.12"
+    },
+    "dompurify": "3.4.17"
+  }
+}
