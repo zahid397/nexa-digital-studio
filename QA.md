@@ -14,7 +14,7 @@ Date: 26 October 2026. Results below describe checks that actually ran.
 | Production dependency audit | 0 vulnerabilities reported |
 | Vercel live deployment | Blocked by missing team access grant |
 | Production administrator and seed | Blocked by automatic approval review |
-| GitHub repository publication | Not completed; no repository URL is claimed |
+| GitHub repository publication | Complete source published to https://github.com/zahid397/nexa-digital-studio |
 
 ## Browser coverage
 

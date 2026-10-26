@@ -5,7 +5,7 @@ Hello Recruitment Team,
 Thank you for the opportunity. I have prepared Nexa Digital Studio, a responsive five-page digital agency demonstration.
 
 Demo or recording: [insert the verified live URL or recording link]
-Source repository: [insert the repository URL, if sharing]
+Source repository: https://github.com/zahid397/nexa-digital-studio
 
 The project uses Next.js, TypeScript, Payload CMS and Neon PostgreSQL. Its authenticated CMS manages the homepage, company information, navigation, services and portfolio, including draft and publication workflows. The contact form validates requests on the server and stores inquiries in the CMS inbox.
 

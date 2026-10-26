@@ -1,5 +1,7 @@
 # Nexa Digital Studio
 
+Source repository: [zahid397/nexa-digital-studio](https://github.com/zahid397/nexa-digital-studio).
+
 A working digital-agency recruitment demonstration with a real Payload CMS administration panel and PostgreSQL persistence. The agency, team profiles, testimonials and portfolio brands are fictional and explicitly labelled. The website does not claim real client relationships or business results.
 
 ## Stack
