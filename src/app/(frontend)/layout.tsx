@@ -5,6 +5,7 @@ import './globals.css'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { getSite } from '@/lib/cms'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3000'),
@@ -32,6 +33,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           {children}
         </main>
         <Footer site={site} />
+        <SpeedInsights />
       </body>
     </html>
   )
