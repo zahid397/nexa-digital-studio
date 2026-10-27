@@ -4,13 +4,21 @@ import { inspect } from 'node:util'
 import { randomUUID } from 'node:crypto'
 import { normalizeDatabaseUrl } from '../src/lib/database-url'
 
+function fixtureUrl(host: string, protocol = 'postgresql:') {
+  const url = new URL(`${protocol}//${host}:5432/nexa`)
+  url.username = 'fixture-' + randomUUID()
+  url.password = randomUUID()
+  return url
+}
+
 test('Neon pooled and direct connections upgrade legacy SSL modes to certificate verification', () => {
   for (const host of [
-    'ep-nexa-review-pooler.us-east-1.aws.neon.tech',
-    'ep-nexa-review.us-east-1.aws.neon.tech',
+    'database-pooler.example.test',
+    'database-direct.example.test',
   ]) {
     for (const mode of ['prefer', 'require', 'verify-ca']) {
-      const original = new URL(`postgresql://studio:password@${host}:5432/nexa?sslmode=${mode}`)
+      const original = fixtureUrl(host)
+      original.searchParams.set('sslmode', mode)
       const normalized = new URL(normalizeDatabaseUrl(original.toString()))
       assert.equal(normalized.searchParams.get('sslmode'), 'verify-full')
       assert.equal(normalized.protocol, original.protocol)
@@ -23,8 +31,12 @@ test('Neon pooled and direct connections upgrade legacy SSL modes to certificate
 })
 
 test('SSL normalization preserves encoded credentials, database paths and additional connection flags', () => {
-  const value = 'postgres://owner%40example.test:p%3Aa%2Fss%23%3F%25@ep-nexa-review-pooler.us-east-1.aws.neon.tech:5432/studio%2Dreview?application_name=owner%20setup&sslmode=require&sslrootcert=%2Ftmp%2Ftrusted%20CA.pem&sslcert=%2Ftmp%2Fclient.pem&sslkey=%2Ftmp%2Fclient.key&channel_binding=require&options=-c%20statement_timeout%3D5000&tag=one&tag=two'
-  const original = new URL(value)
+  const original = fixtureUrl('database-pooler.example.test', 'postgres:')
+  original.username = `${randomUUID()}@example.test`
+  original.password = `${randomUUID()}:/#?%`
+  original.pathname = '/studio%2Dreview'
+  original.search = '?application_name=owner%20setup&sslmode=require&sslrootcert=%2Ftmp%2Ftrusted%20CA.pem&sslcert=%2Ftmp%2Fclient.pem&sslkey=%2Ftmp%2Fclient.key&channel_binding=require&options=-c%20statement_timeout%3D5000&tag=one&tag=two'
+  const value = original.toString()
   const result = normalizeDatabaseUrl(value)
   assert.equal(result, value.replace('sslmode=require', 'sslmode=verify-full'))
   const normalized = new URL(result)
@@ -40,25 +52,32 @@ test('SSL normalization preserves encoded credentials, database paths and additi
 })
 
 test('verified, local and unspecified SSL policies pass through unchanged', () => {
-  for (const value of [
-    'postgresql://studio:password@ep-nexa-review.us-east-1.aws.neon.tech/nexa?sslmode=verify-full&channel_binding=require',
-    'postgres://studio:password@127.0.0.1:5432/nexa?sslmode=disable',
-    'postgresql://studio:password@localhost:5432/nexa',
-    'postgres://studio:p%40ssword@localhost/nexa?application_name=owner%20setup',
-    'postgresql://studio:password@localhost/nexa?sslmode=allow',
-  ]) {
+  for (const [host, protocol, search] of [
+    ['verified.example.test', 'postgresql:', '?sslmode=verify-full&channel_binding=require'],
+    ['local.example.test', 'postgres:', '?sslmode=disable'],
+    ['local.example.test', 'postgresql:', ''],
+    ['local.example.test', 'postgres:', '?application_name=owner%20setup'],
+    ['local.example.test', 'postgresql:', '?sslmode=allow'],
+  ] as const) {
+    const fixture = fixtureUrl(host, protocol)
+    fixture.search = search
+    const value = fixture.toString()
     assert.equal(normalizeDatabaseUrl(value), value)
   }
 })
 
 test('invalid database URLs produce a generic error without exposing credentials', () => {
-  const username = 'fixture-' + randomUUID()
-  const password = randomUUID()
+  const fixture = fixtureUrl('invalid.example.test')
+  fixture.searchParams.set('sslmode', 'require')
+  const { username, password } = fixture
+  const wrongProtocol = fixtureUrl('invalid.example.test', 'https:')
+  wrongProtocol.username = username
+  wrongProtocol.password = password
   let genericMessage: string | undefined
   for (const value of [
-    `postgresql://${username}:${password}@`,
-    `postgresql://${username}:${password}@localhost:invalid/nexa?sslmode=require`,
-    `https://${username}:${password}@localhost/nexa?sslmode=require`,
+    fixture.toString().replace(fixture.host, ''),
+    fixture.toString().replace(`:${fixture.port}/`, ':invalid/'),
+    wrongProtocol.toString(),
     'not a database URL',
   ]) {
     assert.throws(() => normalizeDatabaseUrl(value), (error: unknown) => {

@@ -1,6 +1,6 @@
 # Verification and release evidence
 
-Updated 26 October 2026. These results describe executed checks, not assumed passing tests.
+Updated 27 October 2026. These results describe executed checks, not assumed passing tests.
 
 | Check | Actual result |
 | --- | --- |
@@ -10,7 +10,8 @@ Updated 26 October 2026. These results describe executed checks, not assumed pas
 | npm run test:unit | 13 passed |
 | npm run test:integration | 4 passed against the existing isolated Neon QA branch |
 | npm run build | Passed; Next.js 16.4.3 production build, no schema push |
-| npm run test:e2e | 19 passed, 0 failed, 0 skipped in the final full run |
+| npm run test:e2e | 20 passed, 0 failed, 0 skipped in the final full run |
+| Post-contrast production rebuild and focused browser recheck | Passed; 5 scenarios covering all five widths, modal navigation and reduced motion |
 | npm audit | 0 vulnerabilities, including development dependencies |
 | Existing production migrations | Both committed migrations already applied; preserved unchanged |
 | Guarded production demo seed | Exit 0; 6 services and 6 fictional projects published, categories and all 3 globals initialized |
@@ -22,9 +23,9 @@ The reviewed source is delivered on `codex/nexa-cms-completion`. The recovery pu
 
 All five public pages were checked at 360, 390, 768, 1024 and 1440 pixels without horizontal overflow. The suite exercises mobile modal navigation, native background inertness, focus trapping/restoration, Escape/close/resize/destination cleanup, strict 200px scroll restoration, CMS-driven links, all 6 service detail pages and inquiry CTAs, all 6 fictional project detail pages and images, portfolio filtering, published-service selection and recovery from an empty service list while retaining an unsent draft.
 
-Real CMS checks use the actual Payload UI and the isolated PostgreSQL branch: administrator login, creating a draft, publishing it, public refresh, editing/publishing/restoring homepage content, a contact inquiry persisted and visible in the authenticated private inbox, unauthorized access/version/draft/first-register denials, idempotent retries/conflicts, spam limits and reduced motion. The new failure-path test deliberately simulates only error/mismatched-reference HTTP responses; it verifies that the client retains entered data and never falsely reports a saved inquiry. Successful persistence is independently tested against the real database.
+Real CMS checks use the actual Payload UI and the isolated PostgreSQL branch: administrator login, creating a draft, publishing it, public refresh, editing/publishing/restoring Home and About content, a contact inquiry persisted and visible in the authenticated private inbox, unauthorized access/version/draft/first-register denials, idempotent retries/conflicts, spam limits and reduced motion. The new failure-path test deliberately simulates only error/mismatched-reference HTTP responses; it verifies that the client retains entered data and never falsely reports a saved inquiry. Successful persistence is independently tested against the real database.
 
-The initial recovery browser run had two test-fixture failures. The error assertion also matched Next's route announcer; it now scopes to the actual form. Playwright's locator click scrolled a visible sticky menu trigger before the application handled it; the test now uses its visible screen coordinates and retains the strict original scroll-position assertion. The complete rerun passed all 19 cases. No tests or security checks were disabled.
+The initial recovery browser run had two test-fixture failures. The error assertion also matched Next's route announcer; it now scopes to the actual form. Playwright's locator click scrolled a visible sticky menu trigger before the application handled it; the test now uses its visible screen coordinates and retains the strict original scroll-position assertion. The complete rerun passed all 20 cases. No tests or security checks were disabled.
 
 ## Seed/bootstrap safety
 
@@ -39,3 +40,13 @@ Screenshots in docs/screenshots contain only public fictional content. docs/test
 No email provider is configured, and no message or password-recovery email is claimed sent. Physical Android/Safari, a complete screen-reader audit and Lighthouse benchmarking were not performed. A post-deploy node-postgres SSL-mode warning was investigated: current connections already verified certificates. The runtime now explicitly normalizes only legacy SSL-mode aliases to verify-full while preserving credentials, host, pooled/direct selection and other TLS flags. Four focused URL/security tests cover this behavior. The fresh build compiled successfully. The standard Vercel runtime uses the normal pooled PostgreSQL driver; the restricted QA/owner CLI used the existing opt-in Neon WebSocket driver with real PostgreSQL transactions.
 
 The automatic Git preview is a separate environment: its build fails for missing preview PAYLOAD_SECRET. This is documented rather than hidden by a fallback secret or disabled check. Production deploys use the existing protected production settings. Final deployment and runtime results are recorded in the recovery PR.
+
+## Final release follow-up — 27 October 2026
+
+The full current run passed 13 focused tests, 4 database integration tests and 20 browser scenarios (0 failed/skipped). The added About scenario uses the actual CMS login/UI, saves a draft, proves it remains private, publishes it, checks the public API and page refresh, then restores the original QA content. After the one-token contrast fix, typecheck/lint/build and five layout/navigation/reduced-motion scenarios passed again. Footer contrast is now 5.31:1; service indices remain at least 4.80:1 against their actual gradient backgrounds.
+
+GitGuardian's finding at 49d3a5ab was a synthetic, non-working PostgreSQL URL in a unit test. The test now constructs random fixture credentials at runtime on reserved .example.test hosts, retaining all four TLS assertions. No real credential was found in that finding, no history was rewritten, and no scanner was disabled. Consult the current PR checks for the post-push scanner outcome.
+
+Read-only production browser checks on the preceding READY release passed all five pages at all five acceptance widths, all twelve detail pages and images, category filtering, six service choices and modal navigation, with zero client errors. Eight live access/origin/validation checks passed. The canonical origin is the existing production domain. No production inquiry, administrator, content edit or schema change was made during QA. The latest release's terminal deployment and runtime result is recorded in PR #2 and the final handover.
+
+Production remains at zero administrators until the owner approves and executes the private CLI procedure. The rendered secure setup notice works without a new Payload Admin render error in the inspected release window. Production authenticated editing/inquiry review cannot be claimed complete before the owner's actual login.

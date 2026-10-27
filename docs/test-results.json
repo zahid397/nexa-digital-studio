@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-26T23:34:10.922Z",
-  "environment": "Isolated existing Neon qa-isolated branch; local production build",
+  "date": "2026-10-27T04:22:07.607Z",
+  "environment": "Existing isolated Neon qa-isolated branch; local production build",
   "node": "24.22.1",
   "typecheck": "passed",
   "lint": "passed",
@@ -14,9 +14,17 @@
     "failed": 0
   },
   "browser": {
-    "startTime": "2026-10-26T23:34:10.922Z",
-    "duration": 218035.752,
-    "expected": 19,
+    "startTime": "2026-10-27T04:22:07.607Z",
+    "duration": 250220.596,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "postContrastBrowser": {
+    "startTime": "2026-10-27T04:27:08.247Z",
+    "duration": 47042.988,
+    "expected": 5,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
@@ -33,138 +41,150 @@
   },
   "cases": [
     {
+      "title": "About edits stay private as drafts and appear publicly after CMS publication",
+      "status": "expected",
+      "durationsMs": [
+        29988
+      ]
+    },
+    {
       "title": "completed owner setup keeps the first-user URL on the normal authenticated CMS flow",
       "status": "expected",
       "durationsMs": [
-        3329
+        3461
       ]
     },
     {
       "title": "all six published service details render their CMS content and inquiry links",
       "status": "expected",
       "durationsMs": [
-        6543
+        6812
       ]
     },
     {
       "title": "all six fictional portfolio details render valid project images and case studies",
       "status": "expected",
       "durationsMs": [
-        9457
+        9495
       ]
     },
     {
       "title": "contact service choices reflect published CMS services and preserve CTA selection",
       "status": "expected",
       "durationsMs": [
-        3199
+        3613
       ]
     },
     {
       "title": "contact preserves entered data and never claims success on an error or mismatched reference",
       "status": "expected",
       "durationsMs": [
-        4006
+        2898
       ]
     },
     {
       "title": "unpublished service choices show an explicit recovery state without losing the inquiry draft",
       "status": "expected",
       "durationsMs": [
-        48561
+        46172
       ]
     },
     {
       "title": "mobile navigation covers Contact, traps focus and restores scroll at narrow widths",
       "status": "expected",
       "durationsMs": [
-        4574
+        4689
       ]
     },
     {
       "title": "mobile navigation closes on destination, desktop resize and explicit dismissal",
       "status": "expected",
       "durationsMs": [
-        2354
+        2332
       ]
     },
     {
       "title": "all public pages fit the additional 390px and 1024px acceptance widths",
       "status": "expected",
       "durationsMs": [
-        12201
+        12809
       ]
     },
     {
       "title": "Home, Services, Portfolio, About and Contact navigation",
       "status": "expected",
       "durationsMs": [
-        9521
+        10131
       ]
     },
     {
       "title": "mobile hamburger, keyboard dismissal and touch navigation",
       "status": "expected",
       "durationsMs": [
-        2799
+        2790
       ]
     },
     {
       "title": "responsive layouts have no horizontal overflow",
       "status": "expected",
       "durationsMs": [
-        17746
+        15964
       ]
     },
     {
       "title": "administrator can log in through the actual Payload UI",
       "status": "expected",
       "durationsMs": [
-        5698
+        5511
       ]
     },
     {
       "title": "administrator creates a draft, publishes it and sees it publicly after refresh",
       "status": "expected",
       "durationsMs": [
-        28259
+        28841
       ]
     },
     {
       "title": "editing the homepage in CMS changes the public page",
       "status": "expected",
       "durationsMs": [
-        21598
+        24439
       ]
     },
     {
       "title": "accessible contact validation and a persisted inquiry visible in CMS",
       "status": "expected",
       "durationsMs": [
-        13559
+        16254
       ]
     },
     {
       "title": "anonymous administrative operations and public first-user registration are denied",
       "status": "expected",
       "durationsMs": [
-        474
+        468
       ]
     },
     {
       "title": "contact idempotency, spam rejection and excessive-submission limits",
       "status": "expected",
       "durationsMs": [
-        9857
+        9785
       ]
     },
     {
       "title": "public screenshots and reduced-motion preference",
       "status": "expected",
       "durationsMs": [
-        9047
+        8554
       ]
     }
   ],
-  "tlsVerification": "Legacy alias modes explicitly verify-full; encoded connection settings preserved"
+  "tlsVerification": "Legacy alias modes explicitly verify-full; encoded connection settings preserved",
+  "contrastVerification": {
+    "footerRatio": 5.312,
+    "minimumServicesGradientRatio": 4.803
+  },
+  "productionAdmin": "Not created; private owner approval/bootstrap and production login remain required"
 }
