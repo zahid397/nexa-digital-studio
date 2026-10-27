@@ -1,0 +1,84 @@
+.nexa-owner-setup {
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+  color: var(--theme-text);
+}
+
+.nexa-owner-setup__eyebrow {
+  margin: 0 0 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.nexa-owner-setup__mark {
+  margin-bottom: 1rem;
+  color: #b9a4ff;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.nexa-owner-setup h1 {
+  max-width: 14ch;
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.nexa-owner-setup p,
+.nexa-owner-setup li {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.nexa-owner-setup__steps {
+  margin-block: 2rem;
+  padding: clamp(1rem, 4vw, 1.5rem);
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 0.75rem;
+  background: var(--theme-elevation-50);
+}
+
+.nexa-owner-setup__steps h2 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+}
+
+.nexa-owner-setup__steps ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.nexa-owner-setup__steps li + li {
+  margin-top: 0.65rem;
+}
+
+.nexa-owner-setup__steps p,
+.nexa-owner-setup__sign-in {
+  margin: 1.25rem 0 0;
+  color: var(--theme-elevation-700);
+  font-size: 0.9rem;
+}
+
+.nexa-owner-setup code {
+  overflow-wrap: anywhere;
+}
+
+.nexa-owner-setup__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+}
+
+.nexa-owner-setup a {
+  text-underline-offset: 0.22em;
+}
+
+.nexa-owner-setup a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+  border-radius: 2px;
+}

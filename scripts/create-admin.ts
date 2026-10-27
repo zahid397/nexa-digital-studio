@@ -1,33 +1,19 @@
 import 'dotenv/config'
 import { getPayload } from 'payload'
-import config from '../src/payload.config'
+import { createFirstAdministrator, ownerCredentials, OwnerSetupError } from './owner-setup'
 
-const email = process.env.INITIAL_ADMIN_EMAIL
-const password = process.env.INITIAL_ADMIN_PASSWORD
-if (!email || !password || password.length < 16)
-  throw new Error(
-    'Set INITIAL_ADMIN_EMAIL and a unique INITIAL_ADMIN_PASSWORD of at least 16 characters in the local environment.',
-  )
-const payload = await getPayload({ config })
 try {
-  const { totalDocs } = await payload.count({ collection: 'users', overrideAccess: true })
-  if (totalDocs !== 0)
-    throw new Error(
-      'An administrator already exists. Initial setup does not replace existing users or passwords.',
-    )
-  await payload.create({
-    collection: 'users',
-    overrideAccess: true,
-    context: { secureBootstrap: true },
-    data: { name: 'Studio Administrator', role: 'admin', email, password },
+  const credentials = ownerCredentials({
+    INITIAL_ADMIN_EMAIL: process.env.INITIAL_ADMIN_EMAIL,
+    INITIAL_ADMIN_PASSWORD: process.env.INITIAL_ADMIN_PASSWORD,
   })
-  console.log(
-    'Initial administrator created. Credentials were not printed. Remove INITIAL_ADMIN_PASSWORD from deployment environment variables.',
-  )
+  const payload = await getPayload({ config: (await import('../src/payload.config')).default })
+  await createFirstAdministrator(payload, credentials)
+  console.log('Initial administrator created. Credentials were not printed. Remove bootstrap credentials from the owner environment; do not add them to Vercel Production.')
 } catch (error) {
-  console.error(error instanceof Error ? error.message : 'Administrator setup failed.')
+  console.error(error instanceof OwnerSetupError ? error.message
+    : 'Administrator setup failed. Check the private database connection, committed migration status and owner environment. No credentials were printed.')
   process.exit(1)
 }
-// Every database write above has committed. Explicit CLI exit also closes the
-// adapter's persistent health-check connection in restricted WebSocket sessions.
+// Payload writes have committed. CLI exit closes persistent WebSocket sessions.
 process.exit(0)

@@ -6,10 +6,11 @@ export const contactSchema = z.object({
     .min(2, 'Please enter at least two characters.')
     .max(100, 'Keep your name under 100 characters.'),
   email: z
-    .email('Please enter a valid email address.')
-    .max(254)
+    .string()
+    .trim()
+    .pipe(z.email('Please enter a valid email address.').max(254))
     .transform((v) => v.toLowerCase()),
-  service: z.string().min(1, 'Please choose a service.').max(100),
+  service: z.string().trim().min(1, 'Please choose a service.').max(100),
   message: z
     .string()
     .trim()
